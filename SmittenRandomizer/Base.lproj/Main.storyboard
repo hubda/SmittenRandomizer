@@ -1,14 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Randomizer Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" userLabel="Randomizer Controller" customClass="RandomizerViewController" customModule="SmittenRandomizer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -16,11 +21,129 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="itj-nc-fyn">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What are you in the mood for?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="naO-md-i7Q">
+                                        <rect key="frame" x="27" y="0.0" width="321.5" height="56.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="7iE-Wt-tze">
+                                        <rect key="frame" x="27.5" y="56.5" width="320" height="200"/>
+                                        <subviews>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vOx-Ww-6es">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="100" id="uns-Ur-8aF"/>
+                                                </constraints>
+                                            </pickerView>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s7n-d4-BTt" userLabel="Subcategory Picker">
+                                                <rect key="frame" x="0.0" y="100" width="320" height="100"/>
+                                            </pickerView>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uQB-zA-gR4">
+                                        <rect key="frame" x="113.5" y="256.5" width="148" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="Zwk-Zc-Bfg"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <state key="normal" title="Randomize"/>
+                                        <connections>
+                                            <action selector="findRandomRecipe:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HvL-Af-qV2"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meal Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXg-SW-J1m">
+                                        <rect key="frame" x="137" y="306.5" width="101.5" height="47"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJQ-us-6Ng">
+                                        <rect key="frame" x="0.0" y="353.5" width="375" height="293.5"/>
+                                        <connections>
+                                            <action selector="goToRecipe:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JLM-B8-0P6"/>
+                                            <segue destination="clV-zd-K5X" kind="show" id="BR3-wX-Xi4"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="BJQ-us-6Ng" secondAttribute="trailing" id="Yhz-B0-gK3"/>
+                                    <constraint firstItem="BJQ-us-6Ng" firstAttribute="leading" secondItem="itj-nc-fyn" secondAttribute="leading" id="lv7-zI-VFG"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="itj-nc-fyn" secondAttribute="bottom" id="NMm-9F-Bob"/>
+                            <constraint firstAttribute="trailing" secondItem="itj-nc-fyn" secondAttribute="trailing" id="e7h-oJ-qpe"/>
+                            <constraint firstItem="itj-nc-fyn" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gk1-dZ-tMr"/>
+                            <constraint firstItem="itj-nc-fyn" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="xZ4-ue-Ae4"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="CategoryPicker" destination="vOx-Ww-6es" id="SPe-fg-bEO"/>
+                        <outlet property="MealNameLabel" destination="hXg-SW-J1m" id="IUm-on-JFG"/>
+                        <outlet property="MealPictureButton" destination="BJQ-us-6Ng" id="PjY-QW-oI1"/>
+                        <outlet property="SubcategoryPicker" destination="s7n-d4-BTt" id="FhA-WW-QX9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+        </scene>
+        <!--Web Page Controller-->
+        <scene sceneID="GpR-PJ-a9q">
+            <objects>
+                <viewController title="Randomize Screen View" id="YaN-Gy-CCw" userLabel="Web Page Controller" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9sc-rb-ihp"/>
+                        <viewControllerLayoutGuide type="bottom" id="kHd-7O-hRz"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Q31-Vb-fOV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ChC-09-aAK">
+                                <rect key="frame" x="16" y="64" width="343" height="603"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ChC-09-aAK" firstAttribute="leading" secondItem="Q31-Vb-fOV" secondAttribute="leadingMargin" id="QT7-5V-ymD"/>
+                            <constraint firstItem="kHd-7O-hRz" firstAttribute="top" secondItem="ChC-09-aAK" secondAttribute="bottom" id="WJJ-wt-3zf"/>
+                            <constraint firstItem="ChC-09-aAK" firstAttribute="top" secondItem="9sc-rb-ihp" secondAttribute="bottom" id="kwP-SM-aWX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ChC-09-aAK" secondAttribute="trailing" id="za3-1n-k5z"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="UZf-N1-KQj">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="2wK-Kg-zVN"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DnF-ci-lpd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1896.8" y="35.532233883058474"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="EyT-3z-Za5">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="clV-zd-K5X" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pgx-ei-O29">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="YaN-Gy-CCw" kind="relationship" relationship="rootViewController" id="8BZ-nG-HDB"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FEs-vW-ctF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="957.60000000000002" y="35.532233883058474"/>
         </scene>
     </scenes>
 </document>
