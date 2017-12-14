@@ -13,6 +13,7 @@
 		C17577241FDEDACA0049340B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C17577231FDEDACA0049340B /* Assets.xcassets */; };
 		C17577271FDEDACA0049340B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C17577251FDEDACA0049340B /* LaunchScreen.storyboard */; };
 		C17577321FDEDACA0049340B /* SmittenRandomizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17577311FDEDACA0049340B /* SmittenRandomizerTests.swift */; };
+		C175773D1FE1BB790049340B /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C175773C1FE1BB790049340B /* WebViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		C175772D1FDEDACA0049340B /* SmittenRandomizerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmittenRandomizerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C17577311FDEDACA0049340B /* SmittenRandomizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmittenRandomizerTests.swift; sourceTree = "<group>"; };
 		C17577331FDEDACA0049340B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C175773C1FE1BB790049340B /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			children = (
 				C175771C1FDEDACA0049340B /* AppDelegate.swift */,
 				C175771E1FDEDACA0049340B /* ViewController.swift */,
+				C175773C1FE1BB790049340B /* WebViewController.swift */,
 				C17577201FDEDACA0049340B /* Main.storyboard */,
 				C17577231FDEDACA0049340B /* Assets.xcassets */,
 				C17577251FDEDACA0049340B /* LaunchScreen.storyboard */,
@@ -200,6 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C175771F1FDEDACA0049340B /* ViewController.swift in Sources */,
+				C175773D1FE1BB790049340B /* WebViewController.swift in Sources */,
 				C175771D1FDEDACA0049340B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
