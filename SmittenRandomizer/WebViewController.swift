@@ -11,13 +11,15 @@ import UIKit
 class WebViewController: UIViewController {
     //MARK: Properties
     @IBOutlet weak var webView: UIWebView!
-    var url: NSURL = ""
+    var url: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         if url != "" {
-        webView.load(<#T##data: Data##Data#>, mimeType: <#T##String#>, textEncodingName: <#T##String#>, baseURL: url)
+            let nsurl = NSURL(string: url)
+            let request = NSURLRequest(url: nsurl! as URL)
+            webView.loadRequest(request as URLRequest)
         }
     }
 

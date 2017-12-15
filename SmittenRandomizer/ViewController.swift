@@ -102,7 +102,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let navVC = segue.destination as! UINavigationController
         let webVC = navVC.viewControllers.first as! WebViewController
-        webVC.url = NSURL(string: recipeUrl)
+        webVC.url = recipeUrl
     }
     
     //MARK: Private Functions
