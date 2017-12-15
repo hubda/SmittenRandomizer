@@ -11,7 +11,6 @@ import WebKit
 
 class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     //MARK: Properties
-    @IBOutlet weak var CategoryPicker: UIPickerView!
     @IBOutlet weak var SubcategoryPicker: UIPickerView!
     @IBOutlet weak var MealNameButton: UIButton!
 
@@ -26,11 +25,13 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     var pageContents = ""
     var categoryPage = ""
     var categoryUrl = "https://smittenkitchen.com/recipes/"
+    var recipeUrl = ""
+    var recipeName = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        CategoryPicker.delegate = self
-        CategoryPicker.dataSource = self
+        //CategoryPicker.delegate = self
+        //CategoryPicker.dataSource = self
         SubcategoryPicker.delegate = self
         SubcategoryPicker.dataSource = self
         
@@ -48,55 +49,47 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == CategoryPicker {
+        /*if pickerView == CategoryPicker {
             //print("categories.count: \(categories.count)")
             return categories.count
-        }
-        else if pickerView == SubcategoryPicker {
-            //print("sweetCategory.count: \(sweetCategory.count)")
-            return sweetCategory.count
-        }
-        else {
-            return 0
-        }
+        }*/
+        //print("sweetCategory.count: \(sweetCategory.count)")
+        return sweetCategory.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == CategoryPicker {
+        /*if pickerView == CategoryPicker {
             //print("categories[row]: \(categories[row])")
             return categories[row]
-        }
-        else if pickerView == SubcategoryPicker {
-            //print("sweetcategory[row]: \(sweetCategory[row])")
-            return sweetCategory[row]
-        }
-        else {
-            return ""
-        }
+        }*/
+        //print("sweetcategory[row]: \(sweetCategory[row])")
+        return sweetCategory[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView == CategoryPicker {
+        /*if pickerView == CategoryPicker {
             categoryPicked = categories[row]
-            print("Category: \(categories[row])")
-        }
-        else if pickerView == SubcategoryPicker {
+            //print("Category: \(categories[row])")
+        }*/
+        if pickerView == SubcategoryPicker {
             subcategoryPicked = sweetCategory[row]
-            print("Subcategory: \(sweetCategory[row])")
+            //print("Subcategory: \(sweetCategory[row])")
         }
     }
     
     //MARK: Actions
     //Choose a random meal
     @IBAction func findRandomRecipe(_ sender: UIButton) {
-        print("Randomize clicked")
         //Get the contents of the category page - done
         pageContents = getPageContents(url: categoryUrl)
         //Get the url of the recipe list from the picker - done
         categoryPage = getUrl(str: subcategoryPicked)
         //Get the recipe from the url
         let recipe = getRecipe(url: categoryPage)
-        MealNameButton.titleLabel?.text = recipe
+        recipeUrl = recipe[0]
+        recipeName = recipe[1]
+        print("recipeName: \(recipeName)")
+        MealNameButton.setTitle(recipeName, for: .normal)
     }
     
     //Go to the meal's recipe page
@@ -107,69 +100,97 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     //MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        let navVC = segue.destination as! UINavigationController
+        let webVC = navVC.viewControllers.first as! WebViewController
+        webVC.url = NSURL(string: recipeUrl)
     }
     
     //MARK: Private Functions
     func assignCategories() {
-        categories = ["Savory", "Fruit", "Sweets", "Veggies"]
-        //savoryCategory = ["Appetizers + Party Snacks", "Austrian", "Beans", "Beef", "Bourbon", "Brazilian", "Bread", "Breakfast", "British", "Brown Butter", "Brunch", "Budget"]
-        sweetCategory = ["Any", "Bars", "Brownies/Blondies", "Cake", "Candy", "Celebration Cakes", "Chocolate", "Cookie", "Crumbles/Crisps", "Doughnut", "Everyday Cakes", "Ice Cream/Sorbet", "Popsicles", "Pudding", "Tarts/Pies", "Wedding Cake"]
+        //categories = ["Savory", "Fruit", "Sweets", "Veggies"]
+        sweetCategory = ["Bars", "Brownies/Blondies", "Cake", "Candy", "Celebration Cakes", "Chocolate", "Cookie", "Crumbles/Crisps", "Doughnut", "Everyday Cakes", "Ice Cream/Sorbet", "Popsicles", "Pudding", "Tarts/Pies", "Wedding Cake"]
     }
 
     //Get the recipe from a url
-    func getRecipe(url: String) -> String {
+    func getRecipe(url: String) -> [String] {
         //Get a recipe list from the recipes
         let pageContents = getPageContents(url: url)
         //print("pageContents: \(pageContents)")
         var regex: NSRegularExpression
+        var recipe: [String] = []
+        var chars: [Character] = []
+        var adLocs: [Int] = []
+        let pageArray = Array(pageContents.characters)
+        let pattern = "smittenkitchen.com/[0-9]{4}/[0-9]{2}/.+/"
+        let r = NSMakeRange(0, pageContents.utf16.count)
+        var nameArray: [String] = []
         do {
-            let pageArray = Array(pageContents.characters)
-            //print("pageArray: \(pageArray)")
-            //let dist = pageArray.endIndex - pageArray.startIndex
-            let r = NSMakeRange(0, pageContents.utf16.count)
-            print("range: \(r)")
-            let pattern = "smittenkitchen.com/[0-9]{4}/[0-9]{2}/.+/"
             regex = try NSRegularExpression(pattern: pattern)
-            print("regex: \(regex)")
-            let firstMatch = regex.rangeOfFirstMatch(in: pageContents, range: r)
-            var matchSize = firstMatch.length
-            print("firstMatch: \(firstMatch.location)")
-            var recipe: [String] = []
-            var chars: [Character] = []
-            let matches = regex.matches(in: pageContents, range: r)
+            //Use regex to find the end of the recipes section and make it the range
+            let rangePattern = "div-gpt-ad-1469032223739-0"
+            let rangeRegex = try NSRegularExpression(pattern: rangePattern)
+            let adMatches = rangeRegex.matches(in: pageContents, range: r)
+            for match in adMatches {
+                let matchRange = match.range
+                adLocs.append(matchRange.location)
+            }
+            let rangeToAd = NSMakeRange(adLocs[0] + 1, adLocs[1] - adLocs[0])
+            let matches = regex.matches(in: pageContents, range: rangeToAd)
+            var rememberedIndex = 0
             for match in matches {
-                matchSize = match.length
-                loop: for i in match.location..<match.location + matchSize {
+                let matchRange = match.range
+                let matchSize = matchRange.length
+                //Start at the beginning of the url
+                loopForUrl: for i in matchRange.location..<matchRange.location + matchSize {
                     if pageArray[i] == "\"" {
-                        break loop
+                        rememberedIndex = i
+                        break loopForUrl
                     }
-                chars.append(pageArray[i])
+                    chars.append(pageArray[i])
                 }
                 recipe.append(String(chars))
-                print("pageArrayAtLocation: \(recipe)")
+                chars = []
+                
+                //Start where the last loop left off
+                var nameFlag = 0
+                loopForName: for i in rememberedIndex..<matchRange.location + matchSize {
+                    //Start of the name is after the > and the end is before the <
+                    if pageArray[i] == ">", nameFlag == 0 {
+                        nameFlag = 1
+                    }
+                    //Start of the name has begun
+                    else if pageArray[i] != "<", nameFlag == 1 {
+                        chars.append(pageArray[i])
+                    }
+                    //End of the name
+                    else if pageArray[i] == "<", nameFlag == 1 {
+                        break loopForName
+                    }
+                }
+                let name = String(chars)
+                let newName = name.replacingOccurrences(of: "&nbsp;", with: " ")
+                nameArray.append(newName)
+                chars = []
             }
-            
-            //print("matches: \(String(describing: matches))")
-            
-            /*for match in 0..<matches.count {
-                match
-            }*/
             
         } catch let error {
             print(error)
         }
-        return ""
         
-        
-        /*var indecies = [Int]()
-        var searchStartIndex = pageContents.startIndex
-        while searchStartIndex < pageContents.endIndex, let range = pageContents.range(of: regex, range: searchStartIndex..<pageContents.endIndex), !range.isEmpty {
-            let index = distance(from: pageContents.startIndex, to: range?.lowerBound)
-            indecies.append(index)
-            searchStartIndex = range.upperBound
-        }*/
-        //Pick one randomly
+        let pickedRecipeIndex = pickRecipe(list: recipe)
+        //print("Picked recipe: \(recipe[pickedRecipeIndex])")
+        print("nameArray size: \(nameArray.count)")
+        print("Picked recipe name: \(nameArray[pickedRecipeIndex])")
+        let returnArray = [recipe[pickedRecipeIndex], nameArray[pickedRecipeIndex]]
+        //print("returnArray: \(returnArray)")
+        return returnArray
+    }
+    
+    //Return a random recipe url from a list
+    func pickRecipe(list: [String]) -> Int {
+        let size = list.count
+        let randNum = Int(arc4random_uniform(UInt32(size)))
+        return randNum
     }
     
     //Get the contents of a page
@@ -178,18 +199,11 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         do {
             let url = URL(string: url)
             page = try String(contentsOf: url!, encoding: .utf8)
-            print("page: \(page)")
+            //print("page: \(page)")
         } catch let error {
             print(error)
         }
         return page
-        /*let request = URLRequest(url: url! as URL)
-        let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) -> Void in
-            let pageContents = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)! as String
-            //print("\(self.pageContents)")
-        })*/
-        //print("pageContents: \(pageContents)")
-        //task.resume()
     }
     
     //Returns the url of the recipe list
@@ -207,14 +221,14 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             urlFixed = "ice-creamsorbet"
         }
         let newUrl = urlFormat + urlFixed.lowercased() + urlEnd
-        print("page: \(pageContents)")
-        print("newUrl: \(newUrl)")
-        if pageContents.range(of: newUrl) != nil {
+        //print("page: \(pageContents)")
+        //print("newUrl: \(newUrl)")
+        /*if pageContents.range(of: newUrl) != nil {
             print("Url found")
         }
         else {
             print("Url not found")
-        }
+        }*/
         return newUrl
     }
 }

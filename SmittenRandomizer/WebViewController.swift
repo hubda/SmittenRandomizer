@@ -11,12 +11,14 @@ import UIKit
 class WebViewController: UIViewController {
     //MARK: Properties
     @IBOutlet weak var webView: UIWebView!
-    var url = ""
+    var url: NSURL = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        if url != "" {
+        webView.load(<#T##data: Data##Data#>, mimeType: <#T##String#>, textEncodingName: <#T##String#>, baseURL: url)
+        }
     }
 
     override func didReceiveMemoryWarning() {
