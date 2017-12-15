@@ -49,32 +49,15 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        /*if pickerView == CategoryPicker {
-            //print("categories.count: \(categories.count)")
-            return categories.count
-        }*/
-        //print("sweetCategory.count: \(sweetCategory.count)")
         return sweetCategory.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        /*if pickerView == CategoryPicker {
-            //print("categories[row]: \(categories[row])")
-            return categories[row]
-        }*/
-        //print("sweetcategory[row]: \(sweetCategory[row])")
         return sweetCategory[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        /*if pickerView == CategoryPicker {
-            categoryPicked = categories[row]
-            //print("Category: \(categories[row])")
-        }*/
-        if pickerView == SubcategoryPicker {
-            subcategoryPicked = sweetCategory[row]
-            //print("Subcategory: \(sweetCategory[row])")
-        }
+        subcategoryPicked = sweetCategory[row]
     }
     
     //MARK: Actions
@@ -157,14 +140,25 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
                 
                 //Start where the last loop left off
                 var nameFlag = 0
+                var capitalFlag = 0
                 loopForName: for i in rememberedIndex..<matchRange.location + matchSize {
                     //Start of the name is after the > and the end is before the <
                     if pageArray[i] == ">", nameFlag == 0 {
                         nameFlag = 1
+                        capitalFlag = 1
                     }
                     //Start of the name has begun
                     else if pageArray[i] != "<", nameFlag == 1 {
-                        chars.append(pageArray[i])
+                        if capitalFlag == 1 {
+                            chars.append(Character(String(pageArray[i]).uppercased()))
+                        }
+                        else {
+                            chars.append(pageArray[i])
+                        }
+                        capitalFlag = 0
+                        if pageArray[i] == " " {
+                            capitalFlag = 1
+                        }
                     }
                     //End of the name
                     else if pageArray[i] == "<", nameFlag == 1 {
@@ -183,8 +177,8 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
         let pickedRecipeIndex = pickRecipe(list: recipe)
         //print("Picked recipe: \(recipe[pickedRecipeIndex])")
-        print("nameArray size: \(nameArray.count)")
-        print("Picked recipe name: \(nameArray[pickedRecipeIndex])")
+        //print("nameArray size: \(nameArray.count)")
+        //print("Picked recipe name: \(nameArray[pickedRecipeIndex])")
         let returnArray = [recipe[pickedRecipeIndex], nameArray[pickedRecipeIndex]]
         //print("returnArray: \(returnArray)")
         return returnArray

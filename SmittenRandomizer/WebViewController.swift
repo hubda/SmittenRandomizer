@@ -16,6 +16,7 @@ class WebViewController: UIViewController,  UIWebViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.automaticallyAdjustsScrollViewInsets = false
         let link = URL(string: url)
         let urlRequest = URLRequest(url: link!)
         print("request: \(urlRequest)")
