@@ -149,6 +149,7 @@
 				TargetAttributes = {
 					C17577181FDEDACA0049340B = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 7PZ5BB97D6;
 						ProvisioningStyle = Automatic;
 					};
 					C175772C1FDEDACA0049340B = {
@@ -345,6 +346,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 7PZ5BB97D6;
 				INFOPLIST_FILE = SmittenRandomizer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.SmittenRandomizer;
@@ -357,6 +359,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 7PZ5BB97D6;
 				INFOPLIST_FILE = SmittenRandomizer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.SmittenRandomizer;
@@ -412,6 +415,7 @@
 				C17577381FDEDACA0049340B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C17577391FDEDACA0049340B /* Build configuration list for PBXNativeTarget "SmittenRandomizerTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +424,7 @@
 				C175773B1FDEDACA0049340B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

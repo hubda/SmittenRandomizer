@@ -7,20 +7,20 @@
 //
 
 import UIKit
+import WebKit
 
-class WebViewController: UIViewController {
+class WebViewController: UIViewController,  UIWebViewDelegate {
     //MARK: Properties
     @IBOutlet weak var webView: UIWebView!
     var url: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if url != "" {
-            let nsurl = NSURL(string: url)
-            let request = NSURLRequest(url: nsurl! as URL)
-            webView.loadRequest(request as URLRequest)
-        }
+        let link = URL(string: url)
+        let urlRequest = URLRequest(url: link!)
+        print("request: \(urlRequest)")
+        webView.loadRequest(urlRequest)
+        //webView.loadRequest(URLRequest(url: URL(string: url)!))
     }
 
     override func didReceiveMemoryWarning() {

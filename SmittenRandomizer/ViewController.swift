@@ -80,9 +80,12 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     //MARK: Actions
     //Choose a random meal
     @IBAction func findRandomRecipe(_ sender: UIButton) {
-        //Get the contents of the category page - done
+        if subcategoryPicked == "" {
+            subcategoryPicked = sweetCategory[0]
+        }
+        //Get the contents of the category page
         pageContents = getPageContents(url: categoryUrl)
-        //Get the url of the recipe list from the picker - done
+        //Get the url of the recipe list from the picker
         categoryPage = getUrl(str: subcategoryPicked)
         //Get the recipe from the url
         let recipe = getRecipe(url: categoryPage)
@@ -138,6 +141,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             let matches = regex.matches(in: pageContents, range: rangeToAd)
             var rememberedIndex = 0
             for match in matches {
+                chars = ["h", "t", "t", "p", "s", ":", "/", "/"]
                 let matchRange = match.range
                 let matchSize = matchRange.length
                 //Start at the beginning of the url
