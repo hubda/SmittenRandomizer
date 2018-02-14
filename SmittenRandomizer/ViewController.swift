@@ -116,18 +116,23 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             let rangePattern = "div-gpt-ad-1469032223739-0"
             let rangeRegex = try NSRegularExpression(pattern: rangePattern)
             let adMatches = rangeRegex.matches(in: pageContents, range: r)
+            //iterate for each ad found
+            //the desired urls are in between two pzrticular ads
             for match in adMatches {
                 let matchRange = match.range
                 adLocs.append(matchRange.location)
             }
+            //look in between the two ads for urls
             let rangeToAd = NSMakeRange(adLocs[0] + 1, adLocs[1] - adLocs[0])
             let matches = regex.matches(in: pageContents, range: rangeToAd)
             var rememberedIndex = 0
+            //iterate or each url found and store each url in the recipe array
             for match in matches {
+                //each url starts with this
                 chars = ["h", "t", "t", "p", "s", ":", "/", "/"]
                 let matchRange = match.range
                 let matchSize = matchRange.length
-                //Start at the beginning of the url
+                //start at the beginning of the url and construct the rest of it
                 loopForUrl: for i in matchRange.location..<matchRange.location + matchSize {
                     if pageArray[i] == "\"" {
                         rememberedIndex = i
@@ -141,6 +146,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
                 //Start where the last loop left off
                 var nameFlag = 0
                 var capitalFlag = 0
+                //loop through each url to find the name of the recipe
                 loopForName: for i in rememberedIndex..<matchRange.location + matchSize {
                     //Start of the name is after the > and the end is before the <
                     if pageArray[i] == ">", nameFlag == 0 {
@@ -149,13 +155,16 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
                     }
                     //Start of the name has begun
                     else if pageArray[i] != "<", nameFlag == 1 {
+                        //capitalize the first letter of the recipe
                         if capitalFlag == 1 {
                             chars.append(Character(String(pageArray[i]).uppercased()))
                         }
+                        //the letter is not the first so just add it to the rest of the word
                         else {
                             chars.append(pageArray[i])
                         }
                         capitalFlag = 0
+                        //set the capitalFlag to capitalize letters that come afte a space
                         if pageArray[i] == " " {
                             capitalFlag = 1
                         }
@@ -175,6 +184,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             print(error)
         }
         
+        //randomly pick a recipe from the list and put it into an array with its associated url
         let pickedRecipeIndex = pickRecipe(list: recipe)
         //print("Picked recipe: \(recipe[pickedRecipeIndex])")
         //print("nameArray size: \(nameArray.count)")
@@ -191,7 +201,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return randNum
     }
     
-    //Get the contents of a page
+    //Get the contents of a web page
     func getPageContents(url: String) -> String {
         var page = ""
         do {
@@ -209,12 +219,16 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         let urlFormat = "https://smittenkitchen.com/recipes/sweets/"
         let urlEnd =  "/?format=list"
         var urlFixed = str
+        //the urls aren't all consistent so some characters need to be changed
+        //replace / with -
         if urlFixed.contains("/"), urlFixed != "Ice Cream/Sorbet" {
             urlFixed = urlFixed.replacingOccurrences(of: "/", with: "-")
         }
+        //replace space with -
         else if urlFixed.contains(" "), urlFixed != "Ice Cream/Sorbet" {
             urlFixed = urlFixed.replacingOccurrences(of: " ", with: "-")
         }
+        //fix the ice cream sorbet url because it is an exception to the rule
         else if urlFixed == "Ice Cream/Sorbet" {
             urlFixed = "ice-creamsorbet"
         }
